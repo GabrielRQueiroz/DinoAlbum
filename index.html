@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>HTML 5 Boilerplate</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<header class="header">
+			<h1 class="title">
+				DinoAlbum
+			</h1>
+			<h2 class="subtitle">
+				O álbum para colecionadores de dinossauros do T-Rexx
+			</h2>
+		</header>
+		<main id="main" class="grid">
+		</main>
+		<div class="add-btn-container">
+			<button type="button" class="add-btn border-gradient" id="add-btn" onclick="callAddModal()">
+				➕
+			</button>
+		</div>
+		<form id="dino-form">
+			<div id='add-form' class="add-card-modal-backdrop modal-invisible">
+				<div class="add-card-modal">
+					<header class="modal-header">
+						<h1 class="modal-title">
+							Adicionar dino
+						</h1>
+						<button type="button" onclick="closeAddModal()" id="close-btn" class="close-btn border-gradient">
+							✖️
+						</button>
+					</header>
+					<div class="text form-group field-name">
+						<label for="name" class="text-label">Nome do dino<span class="required">*</span><span class="tooltip-element" tooltip="Exemplo: &quot;Oh bugger!&quot;">?</span></label>
+						<input type="text" placeholder="Oh bugger" class="modal-input modal-form-name" name="name" access="false" maxlength="24" id="name" title="Exemplo: &quot;Oh bugger!&quot;" required="required" aria-required="true">
+					</div>
+					<div class="radio-group form-group field-rarity">
+						<label for="rarity" class="radio-group-label">Raridade<span class="required">*</span></label>
+						<div class="radio-group">
+							<div class="radio-inline">
+								<input checked class="modal-input modal-form-rarity" name="rarity" access="false" id="rarity-0" required="required" aria-required="true" value="common" type="radio">
+								<label class="common" for="rarity-0">Comum</label>
+							</div>
+							<div class="radio-inline">
+								<input class="modal-input modal-form-rarity" name="rarity" access="false" id="rarity-1" required="required" aria-required="true" value="rare" type="radio">
+								<label class="rare" for="rarity-1">Raro</label>
+							</div>
+							<div class="radio-inline">
+								<input class="modal-input modal-form-rarity" name="rarity" access="false" id="rarity-2" required="required" aria-required="true" value="legendary" type="radio">
+								<label class="ultrarare" for="rarity-2">Lendário</label>
+							</div>
+						</div>
+					</div>
+					<div class="textarea form-group field-dino">
+						<label for="dino" class="textarea-label">Arte<span class="required">*</span><span class="tooltip-element" tooltip="Colar aqui a arte do dino">?</span></label>
+						<textarea type="textarea" class="modal-input modal-form-art" rows="20" name="dino" access="false" id="dino" title="Colar aqui a arte do dino" required="required" aria-required="true"></textarea>
+					</div>
+					<button type="submit" id="submit-btn" class="modal-submit">
+						Salvar dino 🦕
+					</button>
+				</div>
+			</div>
+		</form>
+		<script src="index.js"></script>
+	</body>
+</html>
