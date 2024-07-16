@@ -92,5 +92,23 @@ const submitDino = (e) => {
 	localStorage.setItem(dinoKey, dinoValue)
 }
 
+const exportDinos = async () => {
+    let dinosCollection = '			====== DINOALBUM ======			\n\n'
+
+	if (localStorage.length > 0) {
+		for (let [dinometa, art] of  Object.entries(localStorage)) {
+			const [dino, rarity] = dinometa.split(';')
+				
+			dinosCollection += `> DINO:   ${dino}\n`
+			dinosCollection += `> CLASSE: ${rarityText[rarity]}\n`
+			dinosCollection += `\n${art}\n===================================================================================================\n\n`
+		}
+
+		await navigator.clipboard.writeText(dinosCollection).then(() => alert("Dinos copiados para a área de transferência"))
+	} else {
+		alert("Não há dinos para copiar ainda.\n\n Adicione um dino para poder gerar um álbum 🦕")
+	}
+}
+
 dinoForm.addEventListener("submit", (e) => submitDino(e))
 window.onload = () => initialize()
