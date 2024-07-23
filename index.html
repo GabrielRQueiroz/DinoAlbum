@@ -22,10 +22,10 @@
 		<main id="main" class="grid">
 		</main>
 		<div class="add-btn-container">
-			<button type="button" class="add-btn border-gradient" id="clip-btn" onclick="exportDinos()">
+			<button type="button" class="add-btn" id="clip-btn" onclick="exportDinos()">
 				📋
 			</button>
-			<button type="button" class="add-btn border-gradient" id="add-btn" onclick="callAddModal()">
+			<button type="button" class="add-btn" id="add-btn" onclick="callAddModal()">
 				➕
 			</button>
 		</div>
@@ -56,7 +56,7 @@
 								<label class="rare" for="rarity-1">Raro</label>
 							</div>
 							<div class="radio-inline">
-								<input class="modal-input modal-form-rarity" name="rarity" access="false" id="rarity-2" required="required" aria-required="true" value="legendary" type="radio">
+								<input class="modal-input modal-form-rarity" name="rarity" access="false" id="rarity-2" required="required" aria-required="true" value="ultrarare" type="radio">
 								<label class="ultrarare" for="rarity-2">Lendário</label>
 							</div>
 						</div>
@@ -71,6 +71,20 @@
 				</div>
 			</div>
 		</form>
+		<div id="dino-zoom" class="add-card-modal-backdrop modal-invisible">
+			<div class="zoom-card-modal">
+				<div class="modal-header">
+					<h2 id="dino-zoom-title" class="modal-title">
+					</h2>
+					<button id="zoom-close-btn" type="button" onclick="closeDinoZoom()" class='close-btn border-gradient'>
+						✖️
+					</button>
+				</div>
+
+				<pre id="dino-zoom-content" class="modal-zoom-content">
+				</pre>
+			</div>
+		</div>
 		<script src="index.js"></script>
 	</body>
 </html>

@@ -4,6 +4,10 @@ const addModalOpenBtn = document.getElementById('add-btn')
 const addModalCloseBtn = document.getElementById('close-btn')
 const submitBtn = document.getElementById('submit-btn')
 const dinoForm = document.getElementById('dino-form')
+const dinoZoom = document.getElementById('dino-zoom')
+const dinoZoomContent = document.getElementById('dino-zoom-content')
+const dinoZoomTitle = document.getElementById('dino-zoom-title')
+const dinoZoomCloseBtn = document.getElementById('zoom-close-btn')
 const cardSkeleton = '<div class="card"><header class="card-header"><p class="card-name">{NOME}</p><p class="card-rarity">{RARIDADE}</p></header><p class="card-dino">{DINO}</p></div>'
 const cardData = {
     name: '{NOME}',
@@ -31,7 +35,7 @@ const initialize = () => {
             const cardRarity = document.createElement('p')
             cardRarity.classList.add('card-rarity')
             cardRarity.classList.add(rarity)
-			const cardDinoContainer = document.createElement('div')
+			const cardDinoContainer = document.createElement('button')
 			cardDinoContainer.classList.add('card-dino-container')
 			const cardDino = document.createElement('pre')
 			cardDino.classList.add('card-dino')
@@ -44,9 +48,15 @@ const initialize = () => {
             const dinoArt = document.createTextNode(art)
 
 			cardDeleteBtn.setAttribute('type', 'button')
+			cardDeleteBtn.setAttribute('label', `Excluir o dino ${dino}`)
 			cardDeleteBtn.addEventListener('click', (e) => {
 				localStorage.removeItem(`${dino};${rarity}`)
 				window.location.reload()
+			})
+			cardDinoContainer.setAttribute('type', 'button')
+			cardDinoContainer.setAttribute('label', `Ampliar o dino ${dino}`)
+			cardDinoContainer.addEventListener('click', (e) => {
+				openDinoZoom(dinometa)
 			})
             
 			card.appendChild(cardHeader)
@@ -108,6 +118,27 @@ const exportDinos = async () => {
 	} else {
 		alert("Não há dinos para copiar ainda.\n\n Adicione um dino para poder gerar um álbum 🦕")
 	}
+}
+
+closeDinoZoom = () => {
+	dinoZoom.classList.add('modal-invisible')
+	dinoZoom.classList.remove('modal-visible')
+
+	dinoZoomTitle.innerText = ''
+	dinoZoomContent.innerText = ''
+}
+
+openDinoZoom = (key) => {
+	const [dino, _] = key.split(';')
+	const dinoArt = localStorage.getItem(key)
+
+	dinoZoomTitle.innerText = dino
+	dinoZoomContent.innerText = dinoArt
+
+	dinoZoom.classList.add('modal-visible')
+	dinoZoom.classList.remove('modal-invisible')
+
+	dinoZoomCloseBtn.focus()
 }
 
 dinoForm.addEventListener("submit", (e) => submitDino(e))
