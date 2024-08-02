@@ -3,143 +3,278 @@ const addModal = document.getElementById('add-form')
 const addModalOpenBtn = document.getElementById('add-btn')
 const addModalCloseBtn = document.getElementById('close-btn')
 const submitBtn = document.getElementById('submit-btn')
-const dinoForm = document.getElementById('dino-form')
+const dinoAddForm = document.getElementById('dino-form')
 const dinoZoom = document.getElementById('dino-zoom')
 const dinoZoomContent = document.getElementById('dino-zoom-content')
 const dinoZoomTitle = document.getElementById('dino-zoom-title')
-const dinoZoomCloseBtn = document.getElementById('zoom-close-btn')
-const cardSkeleton = '<div class="card"><header class="card-header"><p class="card-name">{NOME}</p><p class="card-rarity">{RARIDADE}</p></header><p class="card-dino">{DINO}</p></div>'
+const dinoZoomClipBtn = document.getElementById('zoom-clip-btn')
+const wavesContainer = document.getElementById('waves-container')
 const cardData = {
-    name: '{NOME}',
-    rarity: '{RARIDADE}',
-    dino: '{DINO}'
+   name: '{NOME}',
+   rarity: '{RARIDADE}',
+   dino: '{DINO}'
 }
-const rarityText = {
-	'common': 'Comum',
-	'rare': 'Raro',
-	'ultrarare': 'Lendário'
+const rarityMap = {
+   'common': {
+      'text': 'Comum',
+      'weight': 1
+   },
+   'rare': {
+      'text': 'Raro',
+      'weight': 2
+   },
+   'ultrarare': {
+      'text': 'Lendário',
+      'weight': 3
+   }
 }
+
+const handleCloseModal = (e) => {
+   if (e.key == "Escape") {
+      closeDinoZoom()
+      closeAddModal()
+   }
+}
+
+// DINO FORM INPUTS
+const dinoAddFormName = document.getElementById('name')
+const dinoAddFormRarity0 = document.getElementById('rarity-0')
+const dinoAddFormRarity1 = document.getElementById('rarity-1')
+const dinoAddFormRarity2 = document.getElementById('rarity-2')
+const dinoAddFormDinoart = document.getElementById('dino')
+
+// const dinoEditFormName = document.getElementById('name-edit')
+// const dinoEditFormRarity0 = document.getElementById('rarity-0-edit')
+// const dinoEditFormRarity1 = document.getElementById('rarity-1-edit')
+// const dinoEditFormRarity2 = document.getElementById('rarity-2-edit')
+// const dinoEditFormDinoart = document.getElementById('dino-edit')
+
+let GLOBAL_DINO_ADD_FORM_META = ''
 
 const initialize = () => {
-    if (localStorage.length > 0) {
-		for (let [dinometa, art] of  Object.entries(localStorage)) {
-			const [dino, rarity] = dinometa.split(';')
+   if (localStorage.length > 0) {
+      const dinos = Object.entries(localStorage)
+      dinos.sort(([metaA, _], [metaB, __]) => {
+         let [nameA,rarityA, tsA] = metaA.split(';') 
+         let [nameB,rarityB, tsB] = metaB.split(';')
+         
+         if (rarityA === rarityB) return nameA.localeCompare(nameB);
+         return rarityMap[rarityB].weight - rarityMap[rarityA].weight
+      })
 
-			const card = document.createElement('div')
-            card.classList.add('card')
-            card.classList.add('border-gradient')
-			const cardHeader = document.createElement('header')
-            cardHeader.classList.add('card-header')
-            const cardName = document.createElement('p')
-            cardName.classList.add('card-name')
-            const cardRarity = document.createElement('p')
-            cardRarity.classList.add('card-rarity')
-            cardRarity.classList.add(rarity)
-			const cardDinoContainer = document.createElement('button')
-			cardDinoContainer.classList.add('card-dino-container')
-			const cardDino = document.createElement('pre')
-			cardDino.classList.add('card-dino')
-			const cardDeleteBtn = document.createElement('button')
-            cardDeleteBtn.classList.add('card-delete')
+      main.innerHTML = ''
 
-            const dinoName = document.createTextNode(dino)
-            const dinoRarity = document.createTextNode(rarityText[rarity])
-            const dinoDelete = document.createTextNode('🗑️')
-            const dinoArt = document.createTextNode(art)
+      for (let [dinometa, art] of dinos) {
+         const [dino, rarity, timestamp] = dinometa.split(';')
 
-			cardDeleteBtn.setAttribute('type', 'button')
-			cardDeleteBtn.setAttribute('label', `Excluir o dino ${dino}`)
-			cardDeleteBtn.addEventListener('click', (e) => {
-				localStorage.removeItem(`${dino};${rarity}`)
-				window.location.reload()
-			})
-			cardDinoContainer.setAttribute('type', 'button')
-			cardDinoContainer.setAttribute('label', `Ampliar o dino ${dino}`)
-			cardDinoContainer.addEventListener('click', (e) => {
-				openDinoZoom(dinometa)
-			})
-            
-			card.appendChild(cardHeader)
-            card.appendChild(cardDinoContainer)
-            card.appendChild(cardDeleteBtn)
+         const card = document.createElement('div')
+         card.classList.add('card')
+         const cardHeader = document.createElement('header')
+         cardHeader.classList.add('card-header')
 
-            cardHeader.appendChild(cardName)
-            cardHeader.appendChild(cardRarity)
+         const cardName = document.createElement('h2')
+         cardName.classList.add('card-name')
+         const cardRarity = document.createElement('span')
+         cardRarity.classList.add('card-rarity')
+         cardRarity.classList.add(rarity)
+         const cardTimestamp = document.createElement('span')
+         cardTimestamp.classList.add('card-timestamp')
+         cardTimestamp.innerHTML = `<i class="bi bi-calendar3"></i> ${new Date(parseInt(timestamp) || 0).toLocaleDateString('pt-BR')}`
+         const cardDinoContainer = document.createElement('button')
+         cardDinoContainer.classList.add('card-dino-container')
+         const cardDino = document.createElement('pre')
+         cardDino.classList.add('card-dino')
+         const cardDeleteBtn = document.createElement('button')
+         cardDeleteBtn.classList.add('card-delete')
+         cardDeleteBtn.innerHTML += '<i class="bi bi-trash"></i>'
+         const cardEditBtn = document.createElement('button')
+         cardEditBtn.classList.add('btn')
+         cardEditBtn.setAttribute('type', 'button')
+         cardEditBtn.setAttribute('label', `Editar o dino ${dino}`)
+         cardEditBtn.setAttribute('title', `Botão de editar ${dino}`)
+         cardEditBtn.innerHTML += '<i class="bi bi-pencil"></i>'
+         cardEditBtn.innerHTML += '<p class="btn-text">Alterar</p>'
+         cardEditBtn.addEventListener('click', (e) => {
+            editDino(dinometa)
+         })
 
-			cardDinoContainer.appendChild(cardDino)
+         const dinoName = document.createTextNode(dino)
+         const dinoRarity = document.createTextNode(rarityMap[rarity].text)
+         const dinoArt = document.createTextNode(art)
 
-            cardName.appendChild(dinoName)
-			cardRarity.appendChild(dinoRarity)
-            cardDino.appendChild(dinoArt)
-			cardDeleteBtn.appendChild(dinoDelete)
+         cardDeleteBtn.setAttribute('type', 'button')
+         cardDeleteBtn.setAttribute('label', `Excluir o dino ${dino}`)
+         cardDeleteBtn.setAttribute('title', `Botão de excluir ${dino}`)
+         cardDeleteBtn.addEventListener('click', (e) => {
+            if (!confirm(`Deseja mesmo apagar ${dino}? 🦖🌠`)) return
+            localStorage.removeItem(`${dino};${rarity}${timestamp in window ? '' : `;${timestamp}`}`)
+            window.dispatchEvent(new Event('storage'))
+         })
+         cardDinoContainer.setAttribute('type', 'button')
+         cardDinoContainer.setAttribute('label', `Ampliar o dino ${dino}`)
+         cardDinoContainer.addEventListener('click', (e) => {
+            openDinoZoom(dinometa)
+         })
 
-			main.appendChild(card)
-        }
-    }
+         card.appendChild(cardDinoContainer)
+         card.appendChild(cardHeader)
+         card.appendChild(cardDeleteBtn)
+
+         const cardHeaderContainer = document.createElement('div')
+         cardHeaderContainer.classList.add('card-header-container')
+         const cardHeaderInnerDiv = document.createElement('div')
+
+         cardHeaderContainer.appendChild(cardName)
+         cardHeaderContainer.appendChild(cardHeaderInnerDiv)
+
+         cardHeaderInnerDiv.appendChild(cardTimestamp)
+         cardHeaderInnerDiv.appendChild(cardRarity)
+
+         cardHeader.appendChild(cardHeaderContainer)
+         cardHeader.appendChild(cardEditBtn)
+
+         cardDinoContainer.appendChild(cardDino)
+
+         cardName.appendChild(dinoName)
+         cardRarity.appendChild(dinoRarity)
+         cardDino.appendChild(dinoArt)
+
+         main.appendChild(card)
+      }
+   }
+}
+
+const editDino = (dinometa) => { 
+   const [dino, rarity, timestamp] = dinometa.split(';')
+
+   dinoAddFormName.value = dino 
+   if (rarity === 'common') {
+      dinoAddFormRarity0.click()
+   } else if (rarity === 'rare') {
+      dinoAddFormRarity1.click()
+   } else if (rarity === 'ultrarare') {
+      dinoAddFormRarity2.click()
+   }
+
+   callAddModal()
+   
+   GLOBAL_DINO_ADD_FORM_META = timestamp in window ? `${dino};${rarity}` : dinometa 
+
+   // in windows verifica a nulidade de timestamp
+   dinoAddFormDinoart.value = localStorage.getItem(GLOBAL_DINO_ADD_FORM_META) 
 }
 
 const callAddModal = () => {
-	addModal.classList.add('modal-visible')
-	addModal.classList.remove('modal-invisible')
-	addModalCloseBtn.focus()
+   GLOBAL_DINO_ADD_FORM_META = ''
+
+   wavesContainer.classList.remove('animate-waves-container')
+   
+   addModal.classList.add('modal-visible')
+   addModal.classList.remove('modal-invisible')
+   
+   document.body.addEventListener('keydown', handleCloseModal)
+   
+   dinoAddFormName.focus()
 }
 
 const closeAddModal = () => {
-	addModal.classList.add('modal-invisible')
-	addModal.classList.remove('modal-visible')
-	addModalOpenBtn.focus()
+   wavesContainer.classList.remove('animate-waves-container')
+   
+   addModal.classList.add('modal-invisible')
+   addModal.classList.remove('modal-visible')
+   
+   document.body.removeEventListener('keydown', handleCloseModal) 
+   
+   dinoAddForm.reset()
+   
+   addModalOpenBtn.focus()
 }
 
 const submitDino = (e) => {
-	closeAddModal()
+   e.preventDefault()
 
-	const data = Object.fromEntries(new FormData(dinoForm).entries())
-	const dinoKey = `${data.name};${data.rarity}`
-	const dinoValue = data.dino
-	
-	dinoForm.reset()
+   wavesContainer.classList.add('animate-waves-container')
+   document.activeElement.blur()
 
-	localStorage.setItem(dinoKey, dinoValue)
+   const data = Object.fromEntries(new FormData(dinoAddForm).entries())
+   const dinoKey = `${data.name};${data.rarity};${Date.now()}`
+   const dinoValue = data.dino
+
+   localStorage.removeItem(GLOBAL_DINO_ADD_FORM_META)
+   localStorage.setItem(dinoKey, dinoValue)
+   window.dispatchEvent(new Event('storage'))
+
+   document.body.removeEventListener('keydown', handleCloseModal) 
+   wavesContainer.addEventListener('click', () => closeAddModal())
+
+   setTimeout(() => {
+      dinoAddForm.reset()
+   }, 1500)
 }
 
 const exportDinos = async () => {
-    let dinosCollection = '			====== DINOALBUM ======			\n\n'
+   let dinosCollection = '			====== DINOALBUM ======			\n\n'
 
-	if (localStorage.length > 0) {
-		for (let [dinometa, art] of  Object.entries(localStorage)) {
-			const [dino, rarity] = dinometa.split(';')
-				
-			dinosCollection += `> DINO:   ${dino}\n`
-			dinosCollection += `> CLASSE: ${rarityText[rarity]}\n`
-			dinosCollection += `\n${art}\n===================================================================================================\n\n`
-		}
+   if (localStorage.length > 0) {
+      for (let [dinometa, art] of  Object.entries(localStorage)) {
+         const [dino, rarity, timestamp] = dinometa.split(';')
 
-		await navigator.clipboard.writeText(dinosCollection).then(() => alert("Dinos copiados para a área de transferência"))
-	} else {
-		alert("Não há dinos para copiar ainda.\n\n Adicione um dino para poder gerar um álbum 🦕")
-	}
+         dinosCollection += `🦖 DINO:   ${dino}\n`
+         dinosCollection += `✨ CLASSE: ${rarityMap[rarity].text}\n`
+         dinosCollection += `📅 ENCONTRADO DIA ${new Date(parseInt(timestamp) || 0).toLocaleString('pt-BR')}`
+         dinosCollection += `\n${art}\n===================================================================================================\n\n`
+      }
+
+      await navigator.clipboard.writeText(dinosCollection).then(() => alert("Dinos copiados para a área de transferência"))
+   } else {
+      alert("Não há dinos para copiar ainda.\n\n Adicione um dino para poder gerar um álbum 🦕")
+   }
 }
 
-closeDinoZoom = () => {
-	dinoZoom.classList.add('modal-invisible')
-	dinoZoom.classList.remove('modal-visible')
+const exportDinoStorage = async () => {
+   if (localStorage.length > 0) {
+      await navigator.clipboard.writeText(localStorage).then(() => alert("Dinos copiados para a área de transferência"))
+   } else { 
+      alert("Não há dinos para copiar ainda.\n\n Adicione um dino para poder gerar um álbum 🦕")
+   }
+} 
 
-	dinoZoomTitle.innerText = ''
-	dinoZoomContent.innerText = ''
+const closeDinoZoom = () => {
+   dinoZoom.classList.add('modal-invisible')
+   dinoZoom.classList.remove('modal-visible')
+
+   document.body.removeEventListener('keydown', handleCloseModal) 
+
+   dinoZoomTitle.innerText = ''
+   dinoZoomContent.innerText = ''
 }
 
-openDinoZoom = (key) => {
-	const [dino, _] = key.split(';')
-	const dinoArt = localStorage.getItem(key)
+const openDinoZoom = (key) => {
+   const [dino, _, __] = key.split(';')
+   const dinoArt = localStorage.getItem(key)
 
-	dinoZoomTitle.innerText = dino
-	dinoZoomContent.innerText = dinoArt
+   document.body.addEventListener('keydown', handleCloseModal) 
 
-	dinoZoom.classList.add('modal-visible')
-	dinoZoom.classList.remove('modal-invisible')
+   dinoZoomTitle.innerText = dino
+   dinoZoomContent.innerText = dinoArt
 
-	dinoZoomCloseBtn.focus()
+   dinoZoom.classList.add('modal-visible')
+   dinoZoom.classList.remove('modal-invisible')
+
+   dinoZoomClipBtn.focus()
 }
 
-dinoForm.addEventListener("submit", (e) => submitDino(e))
+const copyOpenDino = async () =>
+   await navigator.clipboard.writeText(dinoZoomContent.innerText)
+         .then(() => alert(`${dinoZoomTitle.innerText} copiado`))
+
+addModal.addEventListener("click", closeAddModal)
+addModal.children.item(0).addEventListener('click', (e) => e.stopPropagation())
+dinoZoom.addEventListener("click", closeDinoZoom)
+dinoZoom.children.item(0).addEventListener('click', (e) => e.stopPropagation())
+
+dinoAddForm.addEventListener("submit", (e) => submitDino(e))
+
+window.addEventListener('storage', () => initialize())
+
 window.onload = () => initialize()
