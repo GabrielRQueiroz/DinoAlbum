@@ -33,7 +33,9 @@ pre {
 
 .grid {
    display: grid;
-   
+
+   grid-auto-rows: 1fr;
+
    margin: 0 auto;
 
    padding: 2rem 1rem;
@@ -44,10 +46,6 @@ pre {
 .grid > .card {
    height: 100%;
    max-height: fit-content;
-}
-
-@media (min-width: 680px) {
-  .grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 .card > button {
@@ -67,6 +65,17 @@ pre {
 
 .card pre {
    font-size: 50%; 
+}
+
+
+@media (min-width: 720px) {
+   .grid { 
+      grid-template-columns: repeat(2, 1fr); 
+   }
+
+   .card pre {
+      font-size: 56%;
+   }
 }
 
 .header {
