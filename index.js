@@ -9,6 +9,7 @@ const dinoZoomContent = document.getElementById('dino-zoom-content')
 const dinoZoomTitle = document.getElementById('dino-zoom-title')
 const dinoZoomClipBtn = document.getElementById('zoom-clip-btn')
 const wavesContainer = document.getElementById('waves-container')
+const dinoStorageForm = document.getElementById('dino-storage-form')
 const cardData = {
    name: '{NOME}',
    rarity: '{RARIDADE}',
@@ -53,6 +54,8 @@ let GLOBAL_DINO_ADD_FORM_META = ''
 
 const initialize = () => {
    if (localStorage.length > 0) {
+      dinoStorageForm.classList.add('invisible')
+
       const dinos = Object.entries(localStorage)
       dinos.sort(([metaA, _], [metaB, __]) => {
          let [nameA,rarityA, tsA] = metaA.split(';') 
@@ -141,6 +144,8 @@ const initialize = () => {
 
          main.appendChild(card)
       }
+   } else {
+      dinoStorageForm.classList.add('visible')
    }
 }
 
@@ -225,7 +230,8 @@ const exportDinos = async () => {
          dinosCollection += `\n${art}\n===================================================================================================\n\n`
       }
 
-      await navigator.clipboard.writeText(dinosCollection).then(() => alert("Dinos copiados para a área de transferência"))
+      await navigator.clipboard.writeText(dinosCollection)
+      await navigator.clipboard.writeText(JSON.stringify(localStorage)).then(() => alert("Dinos copiados para a área de transferência"))
    } else {
       alert("Não há dinos para copiar ainda.\n\n Adicione um dino para poder gerar um álbum 🦕")
    }
@@ -264,6 +270,22 @@ const openDinoZoom = (key) => {
    dinoZoomClipBtn.focus()
 }
 
+const importDinoStorage = (e) => {
+   e.preventDefault()
+
+   const data = Object.fromEntries(new FormData(dinoStorageForm).entries())
+
+   const objects = JSON.parse(data.storage);
+
+   for (let o in objects) {
+      localStorage.setItem(o, objects[o]);
+   }
+
+   initialize();
+   alert('Dinos importados com sucesso!')
+   return false;
+}
+
 const copyOpenDino = async () =>
    await navigator.clipboard.writeText(dinoZoomContent.innerText)
          .then(() => alert(`${dinoZoomTitle.innerText} copiado`))
@@ -274,6 +296,7 @@ dinoZoom.addEventListener("click", closeDinoZoom)
 dinoZoom.children.item(0).addEventListener('click', (e) => e.stopPropagation())
 
 dinoAddForm.addEventListener("submit", (e) => submitDino(e))
+dinoStorageForm.addEventListener("submit", (e) => importDinoStorage(e))
 
 window.addEventListener('storage', () => initialize())
 
