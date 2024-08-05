@@ -55,6 +55,7 @@ let GLOBAL_DINO_ADD_FORM_META = ''
 const initialize = () => {
    if (localStorage.length > 0) {
       dinoStorageForm.classList.add('invisible')
+      dinoStorageForm.classList.remove('visible')
 
       const dinos = Object.entries(localStorage)
       dinos.sort(([metaA, _], [metaB, __]) => {
@@ -145,7 +146,10 @@ const initialize = () => {
          main.appendChild(card)
       }
    } else {
+      main.innerHTML = ''
+
       dinoStorageForm.classList.add('visible')
+      dinoStorageForm.classList.remove('invisible')
    }
 }
 
@@ -275,10 +279,13 @@ const importDinoStorage = (e) => {
 
    const data = Object.fromEntries(new FormData(dinoStorageForm).entries())
 
-   const objects = JSON.parse(data.storage);
-
-   for (let o in objects) {
-      localStorage.setItem(o, objects[o]);
+   try {
+      const objects = JSON.parse(data.storage);
+      for (let o in objects) {
+         localStorage.setItem(o, objects[o]);
+      }
+   } catch (e) {
+      return alert('⚠️  Insira os dinos copiados no formato adequado 🦖🌠')
    }
 
    initialize();
