@@ -7,6 +7,26 @@
 	font-optical-sizing: auto;
 }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #0480DC transparent;
+}
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 20px;
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: #0480DC;
+}
+
 html {
    background-color: #1D232A;
 	font-family: 'Open Sans', sans-serif;
@@ -29,6 +49,23 @@ pre {
    width: fit-content;
    
    margin: auto;
+}
+
+footer {
+   pointer-events: none;
+
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   
+   padding: 0rem 0.5rem 1.5rem;
+}
+
+footer > p {
+   font-size: 1rem;
+   font-weight: 600; 
+   
+   color: rgba(111, 111, 111, 1);
 }
 
 .grid {
@@ -77,11 +114,6 @@ pre {
       font-size: 56%;
    }
 }
-
-.header {
-   background-color: black;
-}
-
 
 .btn-container {
    display: flex;
@@ -143,11 +175,23 @@ i.bi {
 }
 
 .header {
-   background-color: transparent;
+   background-color: rgba(29, 35, 42, 1);
+  
    display: flex;
+
    padding: 0.5rem 1rem;
+   
    justify-content: space-between;
    box-shadow: 0 0.125rem 0.125rem 0 rgba(0, 0, 0, 0.16);
+
+   position: sticky;
+
+   width: 100%;
+
+   top: 0;
+   left: 0;
+   
+   z-index: 10;
 }
 
 .logo {
@@ -365,9 +409,13 @@ button.card-delete {
 .zoom-card-modal {
    border-radius: 0.5rem;
 
-   overflow: hidden;
+   position: relative;
+
+   overflow-x: hidden;
+   overflow-y: auto;
 
    height: fit-content;
+   max-height: 80vh;   
    width:100%;
 
    max-width: 800px;
@@ -379,6 +427,13 @@ button.card-delete {
 
 .zoom-card-modal .card-header {
    padding: 1.5rem 1em;
+
+   position: sticky;
+
+   width: 100%;
+
+   top: 0;
+   left: 0;
 }
 
 .add-card-modal {
