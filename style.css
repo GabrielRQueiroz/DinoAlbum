@@ -460,10 +460,17 @@ button.card-delete {
 
    width: 100%;
    max-width: 1064px;
-   
+}
+
+.add-card-modal > div {
+   height: fit-content;
+   max-height: 85vh;
+
    display: flex;
    flex-direction: column;
    gap: 1.5rem;
+
+   overflow-y: auto;
 }
 
 .add-card-modal label {
@@ -552,6 +559,11 @@ button.card-delete {
 
 .modal-submit {
    position: absolute;
+   
+   z-index: 999999999;
+   
+   box-shadow: 0 0.125rem 0.125rem 0 rgba(0, 0, 0, 0.16);
+
    top: 1rem;
    right: 1rem;
 }
