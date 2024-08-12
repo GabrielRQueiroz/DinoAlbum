@@ -488,7 +488,8 @@ button.card-delete {
    overflow-y: auto;
 }
 
-.add-card-modal label {
+.add-card-modal label,
+.add-card-modal .radio-group-label {
    font-size: 1.25rem;
    font-weight: 700;
    line-height: 2rem;
@@ -551,6 +552,8 @@ button.card-delete {
    height: 100%;
    width: 100%;
 
+   cursor: pointer;
+
    flex-grow: 1;
 
    opacity: 0;
@@ -572,7 +575,7 @@ button.card-delete {
 .modal-submit {
    position: absolute;
 
-   z-index: 999999999;
+   z-index: 99999999;
 
    box-shadow: 0 0.125rem 0.125rem 0 rgba(0, 0, 0, 0.16);
 
@@ -580,10 +583,20 @@ button.card-delete {
    right: 1rem;
 }
 
+.modal-submit:disabled {
+   cursor: wait;
+
+   filter: grayscale(1)
+}
+
+.modal-submit:disabled:hover {
+   background-color: rgb(4, 128, 220);
+}
+
 .waves-container {
    position: absolute;
 
-   z-index: 99999;
+   z-index: 999999999;
 
    height: 100%;
    width: 100%;

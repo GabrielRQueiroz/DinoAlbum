@@ -151,6 +151,7 @@ const initialize = () => {
 
 
 const callAddModal = () => {
+   submitBtn.removeAttribute('disabled')
    document.body.style.overflowY = 'hidden'
    GLOBAL_DINO_ADD_FORM_META = ''
 
@@ -216,6 +217,7 @@ const copyOpenDino = async () =>
 const submitDino = (e) => {
    e.preventDefault()
 
+   submitBtn.setAttribute('disabled', true)
    wavesContainer.classList.add('animate-waves-container')
    document.activeElement.blur()
 
