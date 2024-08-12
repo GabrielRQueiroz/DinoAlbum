@@ -1,35 +1,38 @@
-*, *:after, *:before {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	text-decoration: none;
+*,
+*:after,
+*:before {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   text-decoration: none;
    color: white;
-	font-optical-sizing: auto;
+   font-optical-sizing: auto;
 }
 
 * {
-  scrollbar-width: thin;
-  scrollbar-color: #0480DC transparent;
+   scrollbar-width: thin;
+   scrollbar-color: #0480DC transparent;
 }
 
 /* Chrome, Edge and Safari */
 *::-webkit-scrollbar {
-  height: 8px;
-  width: 8px;
+   height: 8px;
+   width: 8px;
 }
+
 *::-webkit-scrollbar-track {
-  border-radius: 20px;
-  background-color: transparent;
+   border-radius: 20px;
+   background-color: transparent;
 }
 
 *::-webkit-scrollbar-thumb {
-  border-radius: 4px;
-  background-color: #0480DC;
+   border-radius: 4px;
+   background-color: #0480DC;
 }
 
 html {
    background-color: #1D232A;
-	font-family: 'Open Sans', sans-serif;
+   font-family: 'Open Sans', sans-serif;
 }
 
 body {
@@ -41,31 +44,44 @@ body {
 
 pre {
    padding: 2rem 1rem;
-   
+
    line-height: 1;
    text-align: start;
    font-weight: 500;
 
    width: fit-content;
-   
+
    margin: auto;
 }
 
 footer {
-   pointer-events: none;
+   z-index: 99;
 
    display: flex;
    align-items: center;
    justify-content: center;
-   
+
    padding: 0rem 0.5rem 1.5rem;
 }
 
-footer > p {
+footer>p {
+   cursor: default;
+
    font-size: 1rem;
-   font-weight: 600; 
-   
+   font-weight: 600;
+
    color: rgba(111, 111, 111, 1);
+}
+
+footer .ultrarare {
+   background-repeat: repeat-x;
+   background-position: 0% 0%;
+
+   transition: 0.5s background-position ease-in-out;
+}
+
+footer>p:hover .ultrarare {
+   background-position: 50% 0%;
 }
 
 .grid {
@@ -80,39 +96,28 @@ footer > p {
    gap: 2rem 1.75rem;
 }
 
-.grid > .card {
+.grid>.card {
    height: 100%;
    max-height: fit-content;
 }
 
-.card > button {
+.card>button {
    height: 100%;
    padding: 0;
    border: none;
-   
+
    cursor: pointer;
 
    background-color: rgb(255, 255, 255);
    transition: 0.1s all ease-in-out;
 }
 
-.card > button:hover {
+.card>button:hover {
    filter: brightness(0.95);
 }
 
 .card pre {
-   font-size: 50%; 
-}
-
-
-@media screen and (min-width: 720px) {
-   .grid { 
-      grid-template-columns: repeat(2, 1fr); 
-   }
-
-   .card pre {
-      font-size: 56%;
-   }
+   font-size: 50%;
 }
 
 .btn-container {
@@ -135,7 +140,7 @@ i.bi {
    display: flex;
 
    padding: 0.5rem;
-   
+
    justify-content: center;
    align-items: center;
 
@@ -176,11 +181,11 @@ i.bi {
 
 .header {
    background-color: rgba(29, 35, 42, 1);
-  
+
    display: flex;
 
    padding: 0.5rem 1rem;
-   
+
    justify-content: space-between;
    box-shadow: 0 0.125rem 0.125rem 0 rgba(0, 0, 0, 0.16);
 
@@ -190,7 +195,7 @@ i.bi {
 
    top: 0;
    left: 0;
-   
+
    z-index: 10;
 }
 
@@ -222,9 +227,18 @@ i.bi {
    display: flex;
    position: relative;
    flex-direction: column;
-   
+
    overflow: hidden;
    border-radius: 1rem;
+}
+
+.card .card-dino-container:focus,
+.card .card-delete:focus {
+   outline: 0.25rem solid rgba(4, 128, 220, 1);
+}
+
+.card .card-dino-container:focus {
+   outline-offset: -0.25rem;
 }
 
 button.card-delete {
@@ -232,7 +246,7 @@ button.card-delete {
 
    top: 0.5rem;
    right: 0.5rem;
-   
+
    width: 2.5rem;
    height: 2.5rem;
 
@@ -253,7 +267,7 @@ button.card-delete {
    background-color: rgba(44, 52, 58, 1);
    display: flex;
    justify-content: space-between;
-   align-items: center; 
+   align-items: center;
    padding: 0.5rem 1rem;
    max-width: 100%;
 }
@@ -262,7 +276,7 @@ button.card-delete {
    width: 60%;
 
    flex-grow: 0;
-   flex-shrink: 1; 
+   flex-shrink: 1;
 }
 
 .card-header-container>div {
@@ -277,11 +291,11 @@ button.card-delete {
 .card-name {
    font-weight: 700;
    font-size: 1.25rem;
-   
+
    width: 100%;
    overflow: hidden;
    text-overflow: ellipsis;
-   
+
    padding-right: 2rem;
 
    white-space: nowrap;
@@ -318,9 +332,9 @@ button.card-delete {
    display: inline-flex;
 
    width: fit-content;
-   
+
    align-items: center;
-   
+
    font-size: 0.75rem;
 
    gap: 0.25rem;
@@ -339,7 +353,8 @@ button.card-delete {
    color: rgba(111, 111, 111, 1);
 }
 
-.card-dino, .modal-zoom-content {
+.card-dino,
+.modal-zoom-content {
    font-family: 'Roboto Mono', monospace;
    white-space: pre;
    color: black;
@@ -353,9 +368,9 @@ button.card-delete {
 
    gap: 1rem;
 
-   width: 100%;   
+   width: 100%;
    max-width: 800px;
-   
+
    padding: 0 1rem;
    margin: 0 auto;
 
@@ -379,7 +394,7 @@ button.card-delete {
 
    border: 3px transparent solid;
    border-radius: 0.5rem;
-   
+
    font-weight: 600;
    font-size: 0.75rem;
    line-height: 1;
@@ -425,8 +440,8 @@ button.card-delete {
    overflow-y: auto;
 
    height: fit-content;
-   max-height: 80vh;   
-   width:100%;
+   max-height: 80vh;
+   width: 100%;
 
    max-width: 800px;
 
@@ -462,7 +477,7 @@ button.card-delete {
    max-width: 1064px;
 }
 
-.add-card-modal > div {
+.add-card-modal>div {
    height: fit-content;
    max-height: 85vh;
 
@@ -498,7 +513,7 @@ button.card-delete {
 
    border: 3px transparent solid;
    border-radius: 0.5rem 0.5rem 0 0;
-   
+
    font-weight: 600;
    font-size: 1rem;
    line-height: 1.7rem;
@@ -514,10 +529,7 @@ button.card-delete {
 }
 
 .modal-form-name::placeholder {
-   color: lightgray; 
-}
-
-.add-card-modal .modal-form-rarity {
+   color: lightgray;
 }
 
 .add-card-modal .radio-inline {
@@ -559,9 +571,9 @@ button.card-delete {
 
 .modal-submit {
    position: absolute;
-   
+
    z-index: 999999999;
-   
+
    box-shadow: 0 0.125rem 0.125rem 0 rgba(0, 0, 0, 0.16);
 
    top: 1rem;
@@ -575,7 +587,7 @@ button.card-delete {
 
    height: 100%;
    width: 100%;
-   bottom: -120%;
+   bottom: -150%;
    left: 0;
    background-color: rgba(37, 162, 255, 1);
 }
@@ -589,29 +601,34 @@ button.card-delete {
    height: 120px;
    position: relative;
    width: 100%;
-   margin-bottom:-7px; /*Fix for safari gap*/
+   margin-bottom: -7px;
+   /*Fix for safari gap*/
 }
 
 /* Animation */
 
-.parallax > use {
-  animation: move-forever 25s cubic-bezier(.55,.5,.45,.5)     infinite;
+.parallax>use {
+   animation: move-forever 25s cubic-bezier(.55, .5, .45, .5) infinite;
 }
-.parallax > use:nth-child(1) {
-  animation-delay: -2s;
-  animation-duration: 0.5s;
+
+.parallax>use:nth-child(1) {
+   animation-delay: -2s;
+   animation-duration: 0.5s;
 }
-.parallax > use:nth-child(2) {
-  animation-delay: -3s;
-  animation-duration: 1s;
+
+.parallax>use:nth-child(2) {
+   animation-delay: -3s;
+   animation-duration: 1s;
 }
-.parallax > use:nth-child(3) {
-  animation-delay: -4s;
-  animation-duration: 1.5s;
+
+.parallax>use:nth-child(3) {
+   animation-delay: -4s;
+   animation-duration: 1.5s;
 }
-.parallax > use:nth-child(4) {
-  animation-delay: -5s;
-  animation-duration: 2s;
+
+.parallax>use:nth-child(4) {
+   animation-delay: -5s;
+   animation-duration: 2s;
 }
 
 .success-message {
@@ -620,7 +637,7 @@ button.card-delete {
    display: flex;
    flex-direction: column;
    gap: 4rem;
-   
+
    align-items: center;
    justify-content: center;
 
@@ -633,38 +650,50 @@ button.card-delete {
    color: white;
 }
 
-.success-message > p {
+.success-message>p {
    text-transform: capitalize;
    font-weight: 800;
    font-size: 3rem;
    text-align: center;
 }
 
-.success-message > i {
+.success-message>i {
    height: 7rem;
    width: 7rem;
    font-size: 7rem;
 }
 
-.success-message > span {
+.success-message>span {
    font-size: 1.5rem;
    text-align: center;
 }
 
 @keyframes move-up {
-   0%{
-      bottom: -120%; 
+   0% {
+      bottom: -120%;
    }
+
    100% {
       bottom: 0;
    }
 }
 
 @keyframes move-forever {
-  0% {
-    transform: translate3d(-90px,0,0);
-  }
-  100% {
-    transform: translate3d(85px,0,0);
-  }
+   0% {
+      transform: translate3d(-90px, 0, 0);
+   }
+
+   100% {
+      transform: translate3d(85px, 0, 0);
+   }
+}
+
+@media screen and (min-width: 720px) {
+   .grid {
+      grid-template-columns: repeat(2, 1fr);
+   }
+
+   .card pre {
+      font-size: 56%;
+   }
 }
