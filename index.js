@@ -19,6 +19,8 @@ const dinoAddFormRarity1 = document.getElementById('rarity-1')
 const dinoAddFormRarity2 = document.getElementById('rarity-2')
 const dinoAddFormDinoart = document.getElementById('dino')
 
+const zoomSlider = document.getElementById('zoom-value')
+
 const dinoStorageForm = document.getElementById('dino-storage-form')
 
 const rarityMap = {
@@ -38,6 +40,7 @@ const rarityMap = {
 
 let GLOBAL_DINO_ADD_FORM_META = ''
 let GLOBAL_DINO_ZOOM_META = ''
+let GLOBAL_ZOOM_VALUE = 50
 
 const initialize = () => {
    if (localStorage.length > 0) {
@@ -79,6 +82,7 @@ const initialize = () => {
 
          const cardDino = document.createElement('pre')
          cardDino.classList.add('card-dino')
+         cardDino.style.fontSize = `${GLOBAL_ZOOM_VALUE}%`
 
          const cardDeleteBtn = document.createElement('button')
          cardDeleteBtn.classList.add('card-delete')
@@ -147,6 +151,21 @@ const initialize = () => {
       dinoStorageForm.classList.add('visible')
       dinoStorageForm.classList.remove('invisible')
    }
+}
+
+const handleZoomChange = (e) => {
+   // switch (action) {
+   //    case 'zoom-in':
+   //       GLOBAL_ZOOM_VALUE += 5
+   //       break
+   //    case 'zoom-out':
+   //       GLOBAL_ZOOM_VALUE -= 5
+   //       break
+   //    default:
+   //       return alert('Erro no zoom')
+   // }
+   e.preventDefault()
+   document.querySelectorAll('pre').forEach(dinoCard => dinoCard.style.fontSize = `${e.target.value}%`)
 }
 
 
@@ -296,7 +315,7 @@ const importDinoStorage = (e) => {
          localStorage.setItem(o, objects[o]);
       }
    } catch (e) {
-      return alert('⚠️  Insira os dinos copiados no formato adequado 🦖🌠')
+      return alert('⚠️ Insira os dinos copiados no formato adequado 🦖🌠')
    }
 
    initialize();
@@ -323,6 +342,8 @@ dinoZoom.children.item(0).addEventListener('click', (e) => e.stopPropagation())
 
 dinoAddForm.addEventListener("submit", (e) => submitDino(e))
 dinoStorageForm.addEventListener("submit", (e) => importDinoStorage(e))
+
+zoomSlider.addEventListener('input', (e) => handleZoomChange(e))
 
 window.addEventListener('storage', () => initialize())
 

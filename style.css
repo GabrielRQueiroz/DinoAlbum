@@ -61,7 +61,7 @@ footer {
    align-items: center;
    justify-content: center;
 
-   padding: 0rem 0.5rem 1.5rem;
+   padding: 1.5rem 0.5rem;
 }
 
 footer>p {
@@ -119,6 +119,12 @@ footer>p:hover .ultrarare {
 .card pre {
    font-size: 50%;
 }
+
+.slider-container {
+   display: flex;
+   gap: .5rem;
+}
+
 
 .btn-container {
    display: flex;

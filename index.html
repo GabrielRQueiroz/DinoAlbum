@@ -25,6 +25,18 @@
       </div>
 
       <div class="btn-container">
+         <!-- <button type="button" class="btn" id="add-btn" onclick="handleZoomChange('zoom-in')">
+            <i class="bi bi-zoom-in"></i>
+         </button>
+         <button type="button" class="btn" id="add-btn" onclick="handleZoomChange('zoom-out')">
+            <i class="bi bi-zoom-out"></i>
+         </button> -->
+         <div class="slider-container">
+            <i class="bi bi-zoom-in"></i>
+            <input title="Dê zoom nos dinos" placeholder="50%" type="range" min="30" max="90" value="50" class="slider"
+               id="zoom-value">
+         </div>
+
          <button type="button" class="btn" id="add-btn" onclick="callAddModal()">
             <i class="bi bi-plus-circle"></i>
             <p class="btn-text">
@@ -42,10 +54,7 @@
    </header>
    <main id="main" class="grid">
    </main>
-   <footer>
-      <p>🖌️ Design de <span class="ultrarare">Samuel Ronas</span> 🎨
-      <p>
-   </footer>
+
    <form id="dino-storage-form" class="dino-storage">
       <label for="storage" class="storage-label">Cole aqui seus dinos copiados OU comece adicionando um dino</label>
       <input type="text" class="storage-input" name="storage" access="false" id="storage"
@@ -55,6 +64,10 @@
          <p class="btn-text">Importar dinos</p>
       </button>
    </form>
+   <footer>
+      <p>🖌️ Design de <span class="ultrarare">Samuel Ronas</span> 🎨
+      <p>
+   </footer>
    <form id="dino-form">
       <div id='add-form' class="add-card-modal-backdrop modal-invisible">
          <div class="add-card-modal">
