@@ -122,9 +122,8 @@ footer>p:hover .ultrarare {
 
 .slider-container {
    display: flex;
-   gap: .5rem;
+   gap: 0.5rem;
 }
-
 
 .btn-container {
    display: flex;

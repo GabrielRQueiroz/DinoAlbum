@@ -340,10 +340,10 @@ addModal.children.item(0).addEventListener('click', (e) => e.stopPropagation())
 dinoZoom.addEventListener("click", closeDinoZoom)
 dinoZoom.children.item(0).addEventListener('click', (e) => e.stopPropagation())
 
+zoomSlider.addEventListener('input', (e) => handleZoomChange(e))
+
 dinoAddForm.addEventListener("submit", (e) => submitDino(e))
 dinoStorageForm.addEventListener("submit", (e) => importDinoStorage(e))
-
-zoomSlider.addEventListener('input', (e) => handleZoomChange(e))
 
 window.addEventListener('storage', () => initialize())
 
